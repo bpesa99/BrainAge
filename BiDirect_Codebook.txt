@@ -1,0 +1,37 @@
+BiDirect-Studie
+Institut für Epidemiologie, Universität Münster
+
+------------
+  CODEBOOK  
+------------
+
+idbidirect			ID-Nummer
+sex 				Geschlecht:
+						1=männlich
+						2=weiblich
+kohorte         	Teilkohorte:
+						1=Patienten mit Depression
+						3=Bevölkerungskontrolle
+s0/s2/s4/s6_age     Alter bei entsprechendem Survey
+s0_pi_age_1episode  age at first depressive episode
+					(Frage aus psychiatrischem Interview),
+					nach unten zusammengefasst bis 15 J.
+					(es gibt eine ganze Reihe mit jüngerem Alter,
+					da muss an der Validität der Altersangabe
+					gezweifelt werden)
+s0_pi_ncat_dpstat	Gesamtzahl der stationär behandelten
+					depressiven Episoden,
+					kategoriesiert nach 0, 1, 2, 3, 4, 5+
+s0_pi_ncat_ep~e 	Gesamtzahl der depressiven Episoden,
+					kategorisiert nach 0, 1, 2, 3, 4, 5+
+diag_depr           Diagnose Depression (prävalent + inzident!)
+					Achtung auch unter den Kontrollen hatten
+					ca. 15% eine diagnostizierte prävalente
+					Depression bei Baseline!
+						0=nein
+						1=ja
+diag_park           Diagnose Parkinson (prävalent + inzident!)
+diag_psycho         Diagnose psychiatrische Erkrankung außer
+					Depression (prävalent + inzident!)
+diag_addic          Diagnose Suchterkrankung (prävalent + inzident!)
+diag_stk1           Diagnose Schlaganfall (prävalent + inzident!)
