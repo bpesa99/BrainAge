@@ -104,17 +104,16 @@ model.summary()
 # Modell kompilieren (Regression für Altersvorhersage)
 model.compile(optimizer='adam', loss='mean_squared_error', metrics=['mean_absolute_error'])
 
-
 # 8. Modell trainieren
-history = model.fit(X_train_data, y_train, epochs=10, batch_size=16, validation_data=(X_test_data, y_test))
-
+history = model.fit(X_train_data, y_train_data, epochs=10, batch_size=16, validation_data=(X_test_data, y_test_data))
+print(history.history)
 plt.plot(history.history['accuracy'], label='accuracy')
-plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
+plt.plot(history.history['val_accuracy'], label='val_accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.ylim([0.5, 1])
 plt.legend(loc='lower right')
 
 # 9. Evaluierung des Modells auf Testdaten
-test_loss, test_acc = model.evaluate(X_test_data, y_test)
+test_loss, test_acc = model.evaluate(X_test_data, y_test_data)
 print(f"Test Mean Absolute Error: {test_acc}")
