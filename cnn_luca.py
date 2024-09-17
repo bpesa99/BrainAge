@@ -7,14 +7,14 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
 # Pfade zur CSV und zum Ordner mit den NIfTI-Dateien
-ages_file = "../bildbearbeitung_final/ages.csv"
-images_folder = "../bildbearbeitung_final/scaled_images_interlinear"
+ages_file = 'ages.csv'#"../bildbearbeitung_final/ages.csv"
+images_folder = 'C:/Users/bruno/OneDrive/Bilder/scaled_images_interlinear' #"../bildbearbeitung_final/scaled_images_interlinear"
 
 # 1. CSV-Datei laden
 data = pd.read_csv(ages_file)
 
 # 2. Verzeichnis mit NIfTI-Dateien einlesen
-nifti_files = [f for f in os.listdir(images_folder) if f.endswith('.nii.gz')]
+nifti_files = [f for f in os.listdir(images_folder) if f.endswith('.nii')]#f.endswith('.nii.gz')]
 
 # 3. Verknüpfung der Dateinamen mit Altersdaten
 file_age_map = {row['Dateiname']: row['Alter'] for _, row in data.iterrows()}
@@ -24,9 +24,10 @@ file_paths = []
 ages = []
 
 for nifti_file in nifti_files:
-    if nifti_file in file_age_map:
+    tmp = nifti_file+".gz"
+    if tmp in file_age_map:
         file_paths.append(os.path.join(images_folder, nifti_file))
-        ages.append(file_age_map[nifti_file])
+        ages.append(file_age_map[tmp])
 
 # Konvertiere in NumPy-Arrays
 file_paths = np.array(file_paths)
