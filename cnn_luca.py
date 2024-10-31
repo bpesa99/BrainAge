@@ -25,7 +25,7 @@ def create_callbacks():
 
 
 # Pfade zur CSV und zum Ordner mit den NIfTI-Dateien
-ages_file = "../bildbearbeitung_final/ages2.csv"
+ages_file = "./bildbearbeitung_final/ages2.csv"
 images_folder = "../bildbearbeitung_final/scaled_images_interlinear2"
 
 # 1. CSV-Datei laden
@@ -125,12 +125,12 @@ def create_cnn_model(input_shape):
         tf.keras.Input(shape=input_shape),
         tf.keras.layers.Conv2D(16, (3, 3), activation='relu'),
         tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-        tf.keras.layers.MaxPooling2D((2, 2)),
-        tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
-        tf.keras.layers.MaxPooling2D((2, 2)),
+        #tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+        #tf.keras.layers.MaxPooling2D((2, 2)),
+        #tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
+        #tf.keras.layers.MaxPooling2D((2, 2)),
         tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(128, activation='relu'),
+        #tf.keras.layers.Dense(128, activation='relu'),
         tf.keras.layers.Dense(64, activation='relu'),
         tf.keras.layers.Dense(1, activation='linear')  # Regression für Altersvorhersage
     ])
