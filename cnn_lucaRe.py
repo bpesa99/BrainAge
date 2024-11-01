@@ -125,7 +125,7 @@ model.summary()
 
 # Modell kompilieren
 # Modell kompilieren (Regression für Altersvorhersage)
-optimizer = tf.keras.optimizers.Adam(learning_rate=0.000001)
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.00001)
 model.compile(optimizer=optimizer, loss='mean_absolute_error', metrics=['mean_absolute_error'])
 
 # 8. Modell trainieren
@@ -134,7 +134,7 @@ model.compile(optimizer=optimizer, loss='mean_absolute_error', metrics=['mean_ab
 #X_train_data = X_train_data / np.max(X_train_data, axis=(0,1,2), keepdims=True)
 #X_test_data = X_test_data / np.max(X_test_data, axis=(0,1,2), keepdims=True)
 
-history = model.fit(X_train_data, y_train_data, epochs=25, batch_size=128, validation_data=(X_test_data, y_test_data)) #, callbacks=create_callbacks())
+history = model.fit(X_train_data, y_train_data, epochs=200, batch_size=128, validation_data=(X_test_data, y_test_data)) #, callbacks=create_callbacks())
 model.save('BrainAge.keras')
 #print(history.history)
 plt.plot(history.history['mean_absolute_error'], label='mean_absolute_error')
