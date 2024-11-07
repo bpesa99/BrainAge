@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cb8cdde5-5b78-4d34-9c37-3b37384baa8a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BrainAge.keras" beforeDir="false" afterPath="$PROJECT_DIR$/BrainAge.keras" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cnn_lucaRe.py" beforeDir="false" afterPath="$PROJECT_DIR$/cnn_lucaRe.py" afterDir="false" />
     </list>
