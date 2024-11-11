@@ -64,7 +64,7 @@ def prepare_data(file_paths, ages,slice_range=(0, 100)):#slice_range=(30, 50)
 X_train_data, y_train_data = prepare_data(X_train, y_train)
 X_test_data, y_test_data = prepare_data(X_test, y_test)
 
-# Reshape für das CNN (füge eine Kanal-Dimension hinzu), sonst können die Date nicht verarbeitet werden
+# Reshape für das CNN (füge eine Kanal-Dimension hinzu), sonst können die Daten nicht verarbeitet werden
 X_train_data = np.expand_dims(X_train_data, axis=-1) #Hinzufügen einer Dimension mit dem Wert 1, da wir nur einen Farbkanal(Graustufen) haben
 X_test_data = np.expand_dims(X_test_data, axis=-1) # -1 fügt ans Ende eine Dimension hinzu. 0 würde am Anfang eine hinzufügen
 
