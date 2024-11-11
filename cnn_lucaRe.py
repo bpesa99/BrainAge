@@ -21,7 +21,6 @@ file_age_map = {row['Dateiname']: row['Alter'] for _, row in data.iterrows()}
 file_paths = []
 ages = []
 for nifti_file in nifti_files:
-    #if nifti_file in file_age_map:
     file_paths.append(os.path.join(images_folder, nifti_file))
     ages.append(file_age_map[nifti_file])
 
@@ -32,6 +31,10 @@ ages = np.array(ages)
 
 # 4. Split in Trainings- und Testsets
 X_train, X_test, y_train, y_test = train_test_split(file_paths, ages, test_size=0.2, random_state=42)
+# random_state: Steuert die Zufälligkeit der Datenaufteilung.
+# Ohne random_state sind die Trainings- und Testdaten immer unterschiedlich,
+# wodurch die Reproduzierbarkeit erschwert wird. random_state ∈ ℕ_0, wobei man
+# aber bei einem Wert bleiben sollte für die Reproduzierbarkeit.
 
 # 5. Funktion zum Laden der NIfTI-Dateien und Extrahieren der Schichten
 def load_nifti_file(file_path):
@@ -45,7 +48,7 @@ def prepare_data(file_paths, ages,slice_range=(0, 100)):#slice_range=(30, 50)
     images = []
     target_ages = []
 
-    for idx, file_path in enumerate(file_paths):
+    for idx, file_path in enumerate(file_paths): #enumerate: iteriert den Indize als auch file_paths
         image_data = load_nifti_file(file_path)
         # Iteriere durch jede Schicht des 3D-Bildes
         for i in range(slice_range[0],slice_range[1]):  # slice_range[0],slice_range[1]
@@ -61,9 +64,9 @@ def prepare_data(file_paths, ages,slice_range=(0, 100)):#slice_range=(30, 50)
 X_train_data, y_train_data = prepare_data(X_train, y_train)
 X_test_data, y_test_data = prepare_data(X_test, y_test)
 
-# Reshape für das CNN (füge eine Kanal-Dimension hinzu)
-X_train_data = np.expand_dims(X_train_data, axis=-1)
-X_test_data = np.expand_dims(X_test_data, axis=-1)
+# Reshape für das CNN (füge eine Kanal-Dimension hinzu), sonst können die Date nicht verarbeitet werden
+X_train_data = np.expand_dims(X_train_data, axis=-1) #Hinzufügen einer Dimension mit dem Wert 1, da wir nur einen Farbkanal(Graustufen) haben
+X_test_data = np.expand_dims(X_test_data, axis=-1) # -1 fügt ans Ende eine Dimension hinzu. 0 würde am Anfang eine hinzufügen
 
 # Optional: Normalisierung der Daten
 X_train_data = X_train_data / np.max(X_train_data)
@@ -88,6 +91,10 @@ def create_callbacks():
 def create_cnn_model(input_shape):
     model = tf.keras.models.Sequential([
         tf.keras.Input(shape=input_shape),
+        #Je tiefer die Schichten der Convolutional Layer, umso größer ist i.d.R. die Anzahl an Filtern.
+        #Am Anfang werden meistens einfache Merkmale(Kanten, Ecken, Texturen) erkannt, weshalb auch weniger Filter ausreichen.
+        #In den tieferen Schichten versucht das Modell komplexere Merkmale(z.B. Kombinationen aus Kanten und Texturen)
+        #zu erkennen, weshalb man hier auch mehr Filter braucht.
         tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.MaxPooling2D((2, 2)),
@@ -103,9 +110,6 @@ def create_cnn_model(input_shape):
 
         tf.keras.layers.Flatten(),
 
-        #tf.keras.layers.Dense(256, activation='relu'),
-        #tf.keras.layers.Dense(128, activation='relu'),
-        #tf.keras.layers.Dense(64, activation='relu'),
         tf.keras.layers.Dense(512, activation='relu'),
         tf.keras.layers.Dense(512, activation='relu'),
         tf.keras.layers.Dense(512, activation='relu'),
@@ -116,23 +120,15 @@ def create_cnn_model(input_shape):
     ])
     return model
 
-
 # Eingabeform des Modells
 input_shape = (X_train_data.shape[1], X_train_data.shape[2], 1)  # (Height, Width, Channels)
 model = create_cnn_model(input_shape)
 
 model.summary()
 
-# Modell kompilieren
 # Modell kompilieren (Regression für Altersvorhersage)
 optimizer = tf.keras.optimizers.Adam(learning_rate=0.00001)
 model.compile(optimizer=optimizer, loss='mean_absolute_error', metrics=['mean_absolute_error'])
-
-# 8. Modell trainieren
-#X_train_data = np.clip(X_train_data, -1, 1)
-#X_test_data = np.clip(X_test_data, -1, 1)
-#X_train_data = X_train_data / np.max(X_train_data, axis=(0,1,2), keepdims=True)
-#X_test_data = X_test_data / np.max(X_test_data, axis=(0,1,2), keepdims=True)
 
 history = model.fit(X_train_data, y_train_data, epochs=25, batch_size=246, validation_data=(X_test_data, y_test_data)) #, callbacks=create_callbacks())
 model.save('BrainAge.keras')
@@ -143,5 +139,6 @@ plt.xlabel('Epoch')
 plt.ylabel('Mean Absolute Error')
 #plt.ylim([0.5, 1])
 plt.legend(loc='lower right')
+
 # 9. Evaluierung des Modells auf Testdaten
 test_loss, test_acc = model.evaluate(X_test_data, y_test_data)
