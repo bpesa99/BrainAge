@@ -111,7 +111,7 @@ def create_cnn_model(input_shape):
         # Die units bestimmen die Anzahl an Neuronen/Knoten in einer Hidden Layer. Mehr Neuronen können dem Layer ermöglichen,
         # mehr und komplexere Merkmale zu lernen, was dann aber auch mehr Rechenzeit benötigt.
         # Zu viele Neuronen können jedoch zu Overfitting führen.
-        # Overfitting:   - Das Modell ist zu komplex, z.B. lernt es feine Details, die nur in den Trainingsdaten vorkommen
+        # Overfitting:  - Das Modell ist zu komplex, z.B. lernt es feine Details, die nur in den Trainingsdaten vorkommen
         #               - Das Modell wurde zu lange trainiert und hat sich zu sehr den Trainingsdaten angepasst
         # Die Aktivierungsfunktion entscheidet, wie die Ausgabe jedes Neurons transformiert wird und ist notwendig, um Nichtlinearitäten abzubilden.
         tf.keras.layers.Dense(128, activation='relu'),
